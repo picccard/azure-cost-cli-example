@@ -1,0 +1,31 @@
+name: Azure Cost CLI Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-azure-cost-cli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true 
+
+      - name: Install Azure Cost CLI
+        run: dotnet tool install -g azure-cost-cli --no-cache
+
+      - name: Run Azure PowerShell inline script
+        uses: azure/powershell@v2
+        with:
+          inlineScript: |
+            @('978d6a5f-34d9-4cf2-bd29-760003786953', '69345bf8-491a-4a80-b619-261fa90171b5', 'cf0d4e9c-55bc-4ce7-9b57-b6746db10742') | ForEach-Object {
+                Write-Host "Subscription: $_"
+                azure-cost accumulatedCost -o markdown -s $_ > "$_.md"
+                cat "$_.md"
+            }
+          azPSVersion: "latest"
+
+      - name: Post results to storageaccount
+        run: az storage blob upload-batch --account-name ${{ vars.AZURE_ST_ACCOUNT_NAME }} --destination '$web' --destination-path "test1-$(date +"%d-%m-%Y")" --source '.'
