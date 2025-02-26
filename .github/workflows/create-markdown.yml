@@ -25,4 +25,4 @@ jobs:
         run: cat cost.md >> $GITHUB_STEP_SUMMARY
 
       - name: Post results to storageaccount
-        run: az storage blob upload -f cost.md -c '$web' -n stcostwebview
+        run: az storage blob upload -f cost.md -c '$web' --account-name ${{ vars.AZURE_ST_ACCOUNT_NAME }} -n "cost-${{ github.event.inputs.az-subscription-id }}-$(date +"%d-%m-%Y").md"
