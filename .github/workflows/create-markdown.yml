@@ -1,0 +1,24 @@
+name: Azure Cost CLI Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      az-subscription-id:
+        description: 'Azure Subscription ID'
+        required: true
+jobs:
+  run-azure-cost-cli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Install Azure Cost CLI
+        run: dotnet tool install -g azure-cost-cli --no-cache
+
+      - name: Run Azure Cost CLI
+        run: azure-cost -o markdown --subscription ${{ github.event.inputs.az-subscription-id }} >> $GITHUB_STEP_SUMMARY
+
+    
