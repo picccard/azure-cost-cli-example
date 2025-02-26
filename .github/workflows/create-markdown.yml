@@ -25,8 +25,7 @@ jobs:
         run: cat cost.md >> $GITHUB_STEP_SUMMARY
       
       - name: Transform a markdown file with mermaid diagrams # find the mermaid diagrams, create SVG files from them and refer to those in the markdown output
-        run: |
-          npx -p @mermaid-js/mermaid-cli mmdc -p "${{ github.workspace }}/puppeteer-config.json" -i cost.md -o cost-svg.md
+        run: aa-exec --profile=chrome npx @mermaid-js/mermaid-cli mmdc -i cost.md -o cost-svg.md
 
       - name: Converts Markdown to HTML
         uses: jaywcjlove/markdown-to-html-cli@main
