@@ -7,7 +7,7 @@ on:
         description: 'Azure Subscription ID'
         required: true
 env:
-   MERMAID_FILTER_PUPPETEER_CONFIG: "./.puppeteer-config.json"
+   MERMAID_FILTER_PUPPETEER_CONFIG: "${{ github.workspace }}/.puppeteer-config.json"
  
 jobs:
   run-azure-cost-cli:
