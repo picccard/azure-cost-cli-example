@@ -1,4 +1,4 @@
-name: Azure Cost CLI Workflow
+name: Azure Cost CLI MultiSub Workflow
 
 on:
   workflow_dispatch:
