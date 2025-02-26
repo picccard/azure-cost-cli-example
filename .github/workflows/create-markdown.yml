@@ -24,5 +24,13 @@ jobs:
       - name: Post results to GITHUB SUMMARY
         run: cat cost.md >> $GITHUB_STEP_SUMMARY
 
+      - name: Converts Markdown to HTML
+        uses: jaywcjlove/markdown-to-html-cli@main
+        with:
+          source: cost.md
+          output: cost.html
+          github-corners: https://github.com/jaywcjlove/markdown-to-html-cli
+          favicon: data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>
+
       - name: Post results to storageaccount
-        run: az storage blob upload -f cost.md -c '$web' --account-name ${{ vars.AZURE_ST_ACCOUNT_NAME }} -n "cost-${{ github.event.inputs.az-subscription-id }}-$(date +"%d-%m-%Y").md"
+        run: az storage blob upload -f cost.html -c '$web' --account-name ${{ vars.AZURE_ST_ACCOUNT_NAME }} -n "cost-${{ github.event.inputs.az-subscription-id }}-$(date +"%d-%m-%Y").html"
