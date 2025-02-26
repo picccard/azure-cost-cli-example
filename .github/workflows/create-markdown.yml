@@ -24,10 +24,9 @@ jobs:
       - name: Post results to GITHUB SUMMARY
         run: cat cost.md >> $GITHUB_STEP_SUMMARY
       
-      - name: Install mermaid-cli & transform a markdown file with mermaid diagrams # find the mermaid diagrams, create SVG files from them and refer to those in the markdown output
+      - name: Transform a markdown file with mermaid diagrams # find the mermaid diagrams, create SVG files from them and refer to those in the markdown output
         run: |
-          npm install -g @mermaid-js/mermaid-cli
-          ./node_modules/.bin/mdc -i cost.md -o cost-svg.md
+          npx -p @mermaid-js/mermaid-cli mmdc -i cost.md -o cost-svg.md
 
       - name: Converts Markdown to HTML
         uses: jaywcjlove/markdown-to-html-cli@main
