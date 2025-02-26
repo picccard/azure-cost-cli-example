@@ -6,6 +6,9 @@ on:
       az-subscription-id:
         description: 'Azure Subscription ID'
         required: true
+env:
+   MERMAID_FILTER_PUPPETEER_CONFIG: "./.puppeteer-config.json"
+ 
 jobs:
   run-azure-cost-cli:
     runs-on: ubuntu-latest
